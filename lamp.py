@@ -95,10 +95,128 @@ def load_cloud_credentials() -> Optional[Dict[str, str]]:
     return None
 
 
+SCENE_CATALOG: Dict[str, Dict[str, Any]] = {
+    # --- Dynamic Animated Hardware Loops (Firmware-Rendered) ---
+    "aurora_wave": {
+        "id": "aurora_wave",
+        "name": "Aurora Flow",
+        "type": "dynamic",
+        "desc": "Smooth 6-color spectrum flow",
+        "icon": "wave",
+        "accent": "#00c7be",
+        "payload": {
+            "scene_num": 8,
+            "scene_units": [
+                {"bright": 0, "temperature": 0, "h": 0, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+                {"bright": 0, "temperature": 0, "h": 60, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+                {"bright": 0, "temperature": 0, "h": 120, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+                {"bright": 0, "temperature": 0, "h": 180, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+                {"bright": 0, "temperature": 0, "h": 240, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+                {"bright": 0, "temperature": 0, "h": 300, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 60, "unit_switch_duration": 60},
+            ]
+        }
+    },
+    "ocean_breath": {
+        "id": "ocean_breath",
+        "name": "Ocean Breath",
+        "type": "dynamic",
+        "desc": "Deep cobalt & cyan respiration",
+        "icon": "breath",
+        "accent": "#0a84ff",
+        "payload": {
+            "scene_num": 5,
+            "scene_units": [
+                {"bright": 0, "temperature": 0, "h": 215, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 70, "unit_switch_duration": 70},
+                {"bright": 0, "temperature": 0, "h": 185, "s": 950, "v": 150, "unit_change_mode": "gradient", "unit_gradient_duration": 70, "unit_switch_duration": 70},
+            ]
+        }
+    },
+    "neon_pulse": {
+        "id": "neon_pulse",
+        "name": "Neon Pulse",
+        "type": "dynamic",
+        "desc": "Electric violet & magenta pulse",
+        "icon": "breath",
+        "accent": "#bf5af2",
+        "payload": {
+            "scene_num": 5,
+            "scene_units": [
+                {"bright": 0, "temperature": 0, "h": 315, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 65, "unit_switch_duration": 65},
+                {"bright": 0, "temperature": 0, "h": 270, "s": 1000, "v": 200, "unit_change_mode": "gradient", "unit_gradient_duration": 65, "unit_switch_duration": 65},
+            ]
+        }
+    },
+    "amber_hearth": {
+        "id": "amber_hearth",
+        "name": "Amber Hearth",
+        "type": "dynamic",
+        "desc": "Warm flame respiration glow",
+        "icon": "candle",
+        "accent": "#ff9500",
+        "payload": {
+            "scene_num": 5,
+            "scene_units": [
+                {"bright": 0, "temperature": 0, "h": 32, "s": 1000, "v": 1000, "unit_change_mode": "gradient", "unit_gradient_duration": 75, "unit_switch_duration": 75},
+                {"bright": 0, "temperature": 0, "h": 24, "s": 1000, "v": 120, "unit_change_mode": "gradient", "unit_gradient_duration": 75, "unit_switch_duration": 75},
+            ]
+        }
+    },
+    "disco_jump": {
+        "id": "disco_jump",
+        "name": "Party Pulse",
+        "type": "dynamic",
+        "desc": "High-energy rhythmic RGB jump",
+        "icon": "disco",
+        "accent": "#ff3b30",
+        "payload": {
+            "scene_num": 7,
+            "scene_units": [
+                {"bright": 0, "temperature": 0, "h": 0, "s": 1000, "v": 1000, "unit_change_mode": "jump", "unit_gradient_duration": 20, "unit_switch_duration": 40},
+                {"bright": 0, "temperature": 0, "h": 120, "s": 1000, "v": 1000, "unit_change_mode": "jump", "unit_gradient_duration": 20, "unit_switch_duration": 40},
+                {"bright": 0, "temperature": 0, "h": 240, "s": 1000, "v": 1000, "unit_change_mode": "jump", "unit_gradient_duration": 20, "unit_switch_duration": 40},
+                {"bright": 0, "temperature": 0, "h": 60, "s": 1000, "v": 1000, "unit_change_mode": "jump", "unit_gradient_duration": 20, "unit_switch_duration": 40},
+            ]
+        }
+    },
+
+    # --- Static Curated Lighting ---
+    "reading": {
+        "id": "reading",
+        "name": "Paper Read",
+        "type": "static",
+        "desc": "85% Brightness • 4000K Neutral Balance",
+        "icon": "read",
+        "accent": "#f59e0b",
+        "brightness": 85,
+        "color_temp": 50,
+    },
+    "focus": {
+        "id": "focus",
+        "name": "Studio Focus",
+        "type": "static",
+        "desc": "100% Brightness • 6000K Daylight Alert",
+        "icon": "focus",
+        "accent": "#38bdf8",
+        "brightness": 100,
+        "color_temp": 100,
+    },
+    "midnight": {
+        "id": "midnight",
+        "name": "Midnight Glow",
+        "type": "static",
+        "desc": "12% Brightness • 2000K Candlelight",
+        "icon": "night",
+        "accent": "#818cf8",
+        "brightness": 12,
+        "color_temp": 0,
+    },
+}
+
+
 class LampDevice:
     """
     Controls a single BARDI/Tuya smart lamp or LED strip.
-    Supports On/Off, Brightness, Color Temperature, and Full 16-million RGB Colors.
+    Supports On/Off, Brightness, Color Temperature, Full RGB, and Dynamic Scenes.
     """
 
     DPS_SWITCH = "20"
@@ -106,6 +224,7 @@ class LampDevice:
     DPS_BRIGHTNESS = "22"
     DPS_COLORTEMP = "23"
     DPS_COLOUR_DATA = "24"
+    DPS_SCENE = "25"
 
     def __init__(
         self,
@@ -453,6 +572,48 @@ class LampDevice:
             self._work_mode = "colour"
             self._is_on = True
         return ok
+
+    def set_dynamic_scene(self, scene_payload: dict) -> bool:
+        """Sets a dynamic hardware-animated scene (breathing, rainbow flow, pulse)."""
+        if not self._is_configured:
+            return False
+
+        if self._cloud:
+            commands = [
+                {"code": "switch_led", "value": True},
+                {"code": "work_mode", "value": "scene"},
+                {"code": "scene_data_v2", "value": scene_payload},
+            ]
+            ok = self._send_cloud_command(commands)
+            if ok:
+                self._is_on = True
+                self._work_mode = "scene"
+                return True
+
+        if self._should_try_local():
+            try:
+                self._device.set_multiple_values({
+                    self.DPS_SWITCH: True,
+                    self.DPS_MODE: "scene",
+                    self.DPS_SCENE: json.dumps(scene_payload),
+                })
+                self._is_on = True
+                self._work_mode = "scene"
+                return True
+            except Exception as e:
+                logger.warning(f"Local set_dynamic_scene error: {e}")
+
+        return False
+
+    def apply_named_scene(self, scene_id: str) -> bool:
+        """Applies a curated scene from SCENE_CATALOG by ID."""
+        scene = SCENE_CATALOG.get(scene_id)
+        if not scene:
+            return False
+        if scene.get("type") == "dynamic":
+            return self.set_dynamic_scene(scene["payload"])
+        else:
+            return self.apply_preset(scene.get("brightness", 80), scene.get("color_temp", 50))
 
     def apply_preset(self, brightness: int, color_temp: int) -> bool:
         """Applies a preset scene (ensures white mode, brightness, and color temp)."""

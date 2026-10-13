@@ -28,8 +28,8 @@ if (-not (Test-Path $AssetsDir)) {
 # 2. Copy Binaries & Assets
 Write-Host "[2/4] Copying files..." -ForegroundColor Yellow
 Copy-Item -Path $ExeSource -Destination "$InstallDir\HomeCTRL.exe" -Force
-if (Test-Path "$PSScriptRoot\assets\app_icon.ico") {
-    Copy-Item -Path "$PSScriptRoot\assets\app_icon.ico" -Destination "$AssetsDir\app_icon.ico" -Force
+if (Test-Path "$PSScriptRoot\assets") {
+    Copy-Item -Path "$PSScriptRoot\assets\*" -Destination $AssetsDir -Recurse -Force
 }
 
 # Copy config if present

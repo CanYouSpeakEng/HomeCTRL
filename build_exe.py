@@ -31,6 +31,10 @@ def build():
         "--hidden-import=colorsys",
         "--hidden-import=requests",
         "--hidden-import=winreg",
+        "--hidden-import=winsound",
+        "--hidden-import=icons",
+        "--hidden-import=sound",
+        "--hidden-import=color_wheel",
         "main.py",
     ]
 
