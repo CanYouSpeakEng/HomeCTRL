@@ -10,6 +10,10 @@ Write-Host "========================================" -ForegroundColor Cyan
 $InstallDir = "$env:LOCALAPPDATA\HomeCTRL"
 $ExeSource = "$PSScriptRoot\dist\HomeCTRL.exe"
 
+# Stop existing running instance if any
+Stop-Process -Name "HomeCTRL" -ErrorAction SilentlyContinue
+Start-Sleep -Milliseconds 500
+
 if (-not (Test-Path $ExeSource)) {
     Write-Host "[Error] $ExeSource not found! Please build the executable first using python build_exe.py" -ForegroundColor Red
     exit 1
