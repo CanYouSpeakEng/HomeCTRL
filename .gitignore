@@ -1,0 +1,30 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Private Device Credentials & Local Keys (STRICTLY PRIVATE)
+config.json
+tinytuya.json
+devices.json
+tuya-raw.json
+*.key
+*.token
+
+# Build & Dist Artifacts
+build/
+dist/
+*.spec
+
+# Python Cache & Artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE & OS Artifacts
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+*.log

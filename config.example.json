@@ -1,0 +1,25 @@
+{
+  "cloud": {
+    "api_key": "YOUR_TUYA_OPENAPI_KEY",
+    "api_secret": "YOUR_TUYA_OPENAPI_SECRET",
+    "region": "us"
+  },
+  "devices": [
+    {
+      "name": "Desk Lamp",
+      "device_id": "YOUR_DEVICE_ID_HERE",
+      "local_key": "YOUR_LOCAL_KEY_HERE",
+      "ip_address": "192.168.1.100",
+      "protocol_version": "3.3",
+      "device_type": "lamp"
+    },
+    {
+      "name": "LED Light Strip",
+      "device_id": "YOUR_STRIP_DEVICE_ID",
+      "local_key": "YOUR_STRIP_LOCAL_KEY",
+      "ip_address": "192.168.1.101",
+      "protocol_version": "3.3",
+      "device_type": "lamp"
+    }
+  ]
+}
