@@ -8,6 +8,7 @@ Features:
 - Multi-device support: controls Light 1, Desk Strip, or All Lights.
 """
 
+import sys
 import os
 import json
 import time
@@ -23,8 +24,43 @@ except ImportError:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("HomeCTRL.Lamp")
 
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
-TINYTUYA_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tinytuya.json")
+
+def get_config_path() -> str:
+    """Finds config.json across executable folder, AppData, working dir, or dev tree."""
+    candidates = []
+    if getattr(sys, "frozen", False):
+        candidates.append(os.path.join(os.path.dirname(os.path.abspath(sys.executable)), "config.json"))
+    localapp = os.environ.get("LOCALAPPDATA")
+    if localapp:
+        candidates.append(os.path.join(localapp, "HomeCTRL", "config.json"))
+    candidates.append(os.path.join(os.getcwd(), "config.json"))
+    candidates.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json"))
+
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return candidates[0] if candidates else "config.json"
+
+
+def get_tinytuya_config_path() -> str:
+    """Finds tinytuya.json across executable folder, AppData, working dir, or dev tree."""
+    candidates = []
+    if getattr(sys, "frozen", False):
+        candidates.append(os.path.join(os.path.dirname(os.path.abspath(sys.executable)), "tinytuya.json"))
+    localapp = os.environ.get("LOCALAPPDATA")
+    if localapp:
+        candidates.append(os.path.join(localapp, "HomeCTRL", "tinytuya.json"))
+    candidates.append(os.path.join(os.getcwd(), "tinytuya.json"))
+    candidates.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tinytuya.json"))
+
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return candidates[0] if candidates else "tinytuya.json"
+
+
+CONFIG_PATH = get_config_path()
+TINYTUYA_CONFIG_PATH = get_tinytuya_config_path()
 
 
 def load_cloud_credentials() -> Optional[Dict[str, str]]:
